@@ -1,0 +1,51 @@
+# ⚡ INICIO RÁPIDO - 3 MINUTOS
+
+## 1️⃣ EJECUTAR
+
+```bash
+python main.py
+```
+
+## 2️⃣ ELEGIR MODO
+
+- **Modo Ingenuo**: Ver deadlock
+- **Modo Corregido**: Ver solución
+
+## 3️⃣ OBSERVAR
+
+### Modo Ingenuo (con deadlock)
+```
+✓ Activar: "Inicio Sincronizado"
+✓ Velocidad: 0.5x
+✓ Presionar: "Iniciar"
+✓ Ver: DEADLOCK DETECTADO en ~3 segundos
+```
+
+### Modo Corregido (sin deadlock)
+```
+✓ Activar: "Inicio Sincronizado"
+✓ Velocidad: 1.0x
+✓ Presionar: "Iniciar"
+✓ Ver: Funciona indefinidamente, sin problemas
+```
+
+---
+
+## 📖 DOCUMENTACIÓN
+
+- **Empezar**: Lee `GUIA_RAPIDA.md`
+- **Aprender**: Lee `README_PHILOSOPHERS.md`
+- **Entender**: Lee `ARQUITECTURA.md`
+
+---
+
+## 🎯 QUÉ VAS A VER
+
+- Mesa circular con 5 filósofos
+- Colores: Azul (pensando), Amarillo (esperando), Verde (comiendo), Rojo (deadlock)
+- Contador de comidas por filósofo
+- Eventos en tiempo real
+
+---
+
+**¡Listo! Ahora ejecuta: `python main.py`** 🚀
