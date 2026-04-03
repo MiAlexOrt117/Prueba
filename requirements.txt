@@ -1,0 +1,13 @@
+# El proyecto solo usa librerías estándar de Python 3
+# threading - para concurrencia real
+# tkinter - para la interfaz gráfica
+# No hay dependencias externas
+
+# Para instalar dependencias del sistema en Ubuntu/Debian (si es necesario):
+# sudo apt-get install python3-tk
+
+# Para instalar en macOS:
+# brew install python3 should include tkinter by default
+
+# Verificar que todo está disponible:
+# python -m tkinter
