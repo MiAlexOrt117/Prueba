@@ -50,14 +50,28 @@ class Fork:
         self.lock.acquire()
         self.state = ForkState.TAKEN
         self.owner_id = philosopher_id
-    
+
+    def acquire_with_timeout(self, philosopher_id, timeout):
+        """
+        Intenta tomar el tenedor con timeout.
+
+        Returns:
+            True si logró adquirirlo, False si expiró el tiempo.
+        """
+        acquired = self.lock.acquire(timeout=timeout)
+        if acquired:
+            self.state = ForkState.TAKEN
+            self.owner_id = philosopher_id
+        return acquired
+
     def release(self):
         """
         Suelta el tenedor.
         """
-        self.state = ForkState.FREE
-        self.owner_id = None
-        self.lock.release()
+        if self.lock.locked():
+            self.state = ForkState.FREE
+            self.owner_id = None
+            self.lock.release()
     
     def is_free(self):
         """Retorna True si el tenedor está libre"""

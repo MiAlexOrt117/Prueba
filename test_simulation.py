@@ -16,6 +16,7 @@ def test_naive_simulation():
     
     sim = SimulationNaive()
     sim.set_simulation_speeds(0.2, 0.5, 0.2, 0.5)
+    sim.set_run_options(random_seed=123, high_contention=True)
     
     print("\nIniciando simulación ingenua...")
     print("Con 'Inicio Sincronizado' para aumentar probabilidad de deadlock\n")
@@ -51,6 +52,7 @@ def test_corrected_simulation():
     
     sim = SimulationCorrected()
     sim.set_simulation_speeds(0.2, 0.5, 0.2, 0.5)
+    sim.set_run_options(random_seed=123)
     
     print("\nIniciando simulación corregida...")
     print("Aunque sea con 'Inicio Sincronizado', NO habrá deadlock\n")

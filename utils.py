@@ -12,8 +12,11 @@ class PhilosopherState(Enum):
     """Estados posibles de un filósofo"""
     THINKING = "Pensando"
     HUNGRY = "Hambriento"
-    EATING = "Comiendo"
     WAITING = "Esperando"
+    TOOK_LEFT = "Tomó izq."
+    TOOK_RIGHT = "Tomó der."
+    HAS_BOTH = "Tiene ambos"
+    EATING = "Comiendo"
     DEADLOCK = "Deadlock"
 
 
@@ -37,10 +40,12 @@ DEFAULT_THINKING_TIME_MAX = 2.0
 DEFAULT_EATING_TIME_MIN = 0.5
 DEFAULT_EATING_TIME_MAX = 1.5
 
-DEFAULT_FORK_GRAB_TIME = 0.05  # Tiempo para tomar un tenedor
+DEFAULT_FORK_GRAB_TIME = 0.05
+DEFAULT_ACQUIRE_POLL_INTERVAL = 0.05
 
 # Umbral para detectar deadlock (segundos sin progreso)
 DEADLOCK_DETECTION_THRESHOLD = 3.0
+DEFAULT_LEFT_FORK_HOLD_DELAY = 0.15
 
 # ============================================================================
 # Colores para la interfaz
@@ -48,15 +53,19 @@ DEADLOCK_DETECTION_THRESHOLD = 3.0
 
 COLORS = {
     "thinking": "#4A90E2",      # Azul
-    "hungry": "#F5D547",         # Amarillo
-    "eating": "#7ED321",         # Verde
-    "waiting": "#F5D547",        # Amarillo (igual que hungry)
-    "deadlock": "#D0021B",       # Rojo
-    "free_fork": "#B8B8B8",      # Gris
-    "taken_fork": "#D0021B",     # Rojo
-    "background": "#FFFFFF",     # Blanco
-    "text": "#000000",           # Negro
-    "panel_bg": "#F0F0F0",       # Gris claro
+    "hungry": "#F5A623",        # Naranja
+    "waiting": "#F8E71C",       # Amarillo
+    "took_left": "#F7C76A",     # Amarillo oscuro
+    "took_right": "#F7B267",    # Naranja suave
+    "has_both": "#50E3C2",      # Turquesa
+    "eating": "#7ED321",        # Verde
+    "deadlock": "#D0021B",      # Rojo
+    "free_fork": "#B8B8B8",     # Gris
+    "taken_fork": "#D0021B",    # Rojo
+    "highlight_fork": "#4A4A4A",
+    "background": "#FFFFFF",    # Blanco
+    "text": "#000000",          # Negro
+    "panel_bg": "#F0F0F0",      # Gris claro
 }
 
 # ============================================================================
@@ -84,6 +93,12 @@ class Statistics:
             self.total_wait_time += wait_time
             self.max_wait_time = max(self.max_wait_time, wait_time)
             self.start_wait_time = None
+
+    def get_current_wait_time(self):
+        """Retorna el tiempo actual esperando, si aplica."""
+        if self.start_wait_time is None:
+            return 0.0
+        return time.time() - self.start_wait_time
     
     def record_meal(self):
         """Registra una comida"""
@@ -101,6 +116,7 @@ class Event:
         self.philosopher_id = philosopher_id
         self.event_type = event_type  # "GRAB", "RELEASE", "EATING", "THINKING", etc.
         self.message = message
-    
+
     def __str__(self):
-        return f"[{self.timestamp:.2f}s] Filósofo {self.philosopher_id}: {self.message}"
+        actor = "Sistema" if self.philosopher_id < 0 else f"Filósofo {self.philosopher_id}"
+        return f"[{self.timestamp:.2f}s] {actor}: {self.message}"
