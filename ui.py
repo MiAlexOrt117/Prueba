@@ -150,10 +150,10 @@ class DiningPhilosophersUI:
     def _on_start(self):
         """Inicia la simulación"""
         self.simulation.set_simulation_speeds(
-            0.5 / self.speed_factor,
-            2.0 / self.speed_factor,
-            0.5 / self.speed_factor,
-            1.5 / self.speed_factor
+            0.5 / self.speed_factor.get(),
+            2.0 / self.speed_factor.get(),
+            0.5 / self.speed_factor.get(),
+            1.5 / self.speed_factor.get()
         )
         self.simulation.start(synchronize_start=self.synchronize_start.get())
         
